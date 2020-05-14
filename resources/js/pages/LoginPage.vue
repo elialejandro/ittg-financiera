@@ -5,19 +5,24 @@
                 <v-card-title>Login</v-card-title>
                 <v-card-text>
                     <v-text-field
+                        prepend-icon="mdi-account"
                         v-model="credentials.username"
                         label="Usuario">
                     </v-text-field>
                     <v-text-field
                         label="Contraseña"
                         v-model="credentials.password"
+                        prepend-icon="mdi-lock"
                         :append-icon="showPassword ? 'mdi-eye': 'mdi-eye-off'"
                         :type="showPassword ? 'text': 'password'"
                         @click:append="showPassword = !showPassword"
                         >
                     </v-text-field>
-                    <v-btn color="primary" @click="login">Ingresar</v-btn>
                 </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" @click="login" text>Ingresar</v-btn>
+                </v-card-actions>
             </v-card>
         </v-col>
     </v-row>
