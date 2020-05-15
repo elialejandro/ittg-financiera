@@ -2029,14 +2029,20 @@ __webpack_require__.r(__webpack_exports__);
     return {
       showPassword: false,
       credentials: {
-        username: '',
-        password: ''
+        email: 'admin@app.com',
+        password: 'password'
       }
     };
   },
   methods: {
     login: function login() {
-      console.log(this.credentials);
+      var _this = this;
+
+      axios.get('/sanctum/csrf-cookie').then(function (response) {
+        axios.post('/login', _this.credentials).then(function (response) {
+          console.log(response.data);
+        });
+      });
     }
   }
 });
@@ -20388,13 +20394,16 @@ var render = function() {
                 "v-card-text",
                 [
                   _c("v-text-field", {
-                    attrs: { "prepend-icon": "mdi-account", label: "Usuario" },
+                    attrs: {
+                      "prepend-icon": "mdi-account",
+                      label: "Correo Electrónico"
+                    },
                     model: {
-                      value: _vm.credentials.username,
+                      value: _vm.credentials.email,
                       callback: function($$v) {
-                        _vm.$set(_vm.credentials, "username", $$v)
+                        _vm.$set(_vm.credentials, "email", $$v)
                       },
-                      expression: "credentials.username"
+                      expression: "credentials.email"
                     }
                   }),
                   _vm._v(" "),
@@ -77374,7 +77383,7 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
  */
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.withCredentials = true;
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

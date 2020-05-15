@@ -6,8 +6,8 @@
                 <v-card-text>
                     <v-text-field
                         prepend-icon="mdi-account"
-                        v-model="credentials.username"
-                        label="Usuario">
+                        v-model="credentials.email"
+                        label="Correo Electrónico">
                     </v-text-field>
                     <v-text-field
                         label="Contraseña"
@@ -34,13 +34,20 @@ export default {
     data: () => ({
         showPassword: false,
         credentials: {
-            username: '',
-            password: '',
+            email: 'admin@app.com',
+            password: 'password',
         }
     }),
     methods: {
         login() {
-            console.log(this.credentials);
+
+            axios.get('/sanctum/csrf-cookie')
+                .then(response => {
+                    axios.post('/login', this.credentials)
+                        .then(response => {
+                            console.log(response.data);
+                        });
+                });
         }
     }
 }
