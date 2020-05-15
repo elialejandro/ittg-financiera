@@ -46,6 +46,7 @@ export default {
                     axios.post('/login', this.credentials)
                         .then(response => {
                             console.log(response.data);
+                            localStorage.setItem('auth', true);
                         });
                 });
         }
