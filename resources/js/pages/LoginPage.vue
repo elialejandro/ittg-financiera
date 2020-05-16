@@ -40,15 +40,8 @@ export default {
     }),
     methods: {
         login() {
-
-            axios.get('/sanctum/csrf-cookie')
-                .then(response => {
-                    axios.post('/login', this.credentials)
-                        .then(response => {
-                            console.log(response.data);
-                            localStorage.setItem('auth', true);
-                        });
-                });
+            this.$store.dispatch('login', this.credentials);
+            // return this.$router.push("/");
         }
     }
 }

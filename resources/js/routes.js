@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from '@/js/stores';
 
 import Home from '@/js/components/Home';
 import About from '@/js/components/About';
@@ -35,7 +36,7 @@ const router = new VueRouter({
     ]
 });
 
-const isAuthenticated = localStorage.getItem('auth');
+const isAuthenticated = store.state.isAuthenticated;
 
 router.beforeEach((to, from, next) => {
     if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
