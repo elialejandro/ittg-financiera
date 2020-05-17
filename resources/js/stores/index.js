@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
-        drawerOpen: false,
+        drawerOpen: true,
         isAuthenticated: localStorage.getItem('auth') || false,
         user: {}
     },
@@ -25,6 +25,9 @@ const store = new Vuex.Store({
                 .catch(error => {
                     commit('setUser', {});
                 });
+        },
+        drawerToggle ({ commit }) {
+            commit('DRAWER_TOGGLE');
         }
     },
     mutations: {
@@ -32,6 +35,9 @@ const store = new Vuex.Store({
             state.user = user;
             state.isAuthenticated = Boolean(user);
             localStorage.setItem('auth', state.isAuthenticated);
+        },
+        DRAWER_TOGGLE(state) {
+            state.drawerOpen = !state.drawerOpen;
         }
     },
     getters: {}

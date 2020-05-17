@@ -1,11 +1,11 @@
 <template>
     <v-app>
-        <v-navigation-drawer app color="primary" absolute v-model="drawerOpen" dark>
+        <v-navigation-drawer app color="primary" absolute :value="drawerOpen" dark>
             <navigation></navigation>
         </v-navigation-drawer>
 
         <v-app-bar app color="yellow">
-            <v-app-bar-nav-icon @click="drawerOpen = true"></v-app-bar-nav-icon>
+            <v-app-bar-nav-icon @click="drawerToggle"></v-app-bar-nav-icon>
             <v-toolbar-title>
                 Financiera
             </v-toolbar-title>
@@ -19,3 +19,22 @@
         <v-footer app></v-footer>
     </v-app>
 </template>
+
+<script>
+import Navigation from '@/js/components/Navigation';
+export default {
+    components: {
+        navigation: Navigation
+    },
+    computed: {
+        drawerOpen () {
+            return this.$store.state.drawerOpen;
+        }
+    },
+    methods: {
+        drawerToggle () {
+            this.$store.dispatch('drawerToggle');
+        }
+    }
+}
+</script>
