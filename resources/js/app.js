@@ -7,6 +7,8 @@ import Routes from '@/js/routes.js';
 import App from '@/js/views/App';
 import store  from '@/js/stores';
 
+store.dispatch('getUser');
+
 const app = new Vue({
     vuetify,
     el: '#app',

@@ -30,18 +30,17 @@ const router = new VueRouter({
         },
         {
             path: '/login',
-            name: 'Login',
+            name: 'login',
             component: Login
         }
     ]
 });
 
-const isAuthenticated = store.state.isAuthenticated;
-
 router.beforeEach((to, from, next) => {
-    if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
-    else if (to.name === 'Login' && isAuthenticated) next({ name: 'home' })
-    else next()
-  })
+    const isAuthenticated = store.state.isAuthenticated;
+    if (to.name !== 'login' && !isAuthenticated) next({ name: 'login'});
+    else if (to.name === 'login' && isAuthenticated) next({ name: 'home' });
+    else next();
+});
 
 export default router;

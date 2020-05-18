@@ -24,24 +24,40 @@
                     <v-btn color="primary" @click="login" text>Ingresar</v-btn>
                 </v-card-actions>
             </v-card>
+            <v-snackbar
+                v-model="snackbar"
+                :top="true"
+                :right="true"
+                :color="'error'">
+                {{ message }}
+            </v-snackbar>
         </v-col>
     </v-row>
 </template>
 
 <script>
 export default {
-    name: 'Login',
     data: () => ({
         showPassword: false,
         credentials: {
             email: 'admin@app.com',
             password: 'password',
-        }
+        },
+        snackbar: false,
+        message: ''
     }),
     methods: {
-        login() {
-            this.$store.dispatch('login', this.credentials);
-            // return this.$router.push("/");
+        async login() {
+            try {
+                console.log(new Date());
+                await this.$store.dispatch('login', this.credentials);
+                console.log(new Date());
+                console.log('Authenticated: ', this.$store.state.isAuthenticated);
+                this.$router.push("/");
+            } catch (error) {
+                this.snackbar = true;
+                this.message = 'Ocurrió un problema, las credenciales proporcionadas no son correctas.'
+            };
         }
     }
 }
