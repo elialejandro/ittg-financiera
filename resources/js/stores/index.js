@@ -8,16 +8,32 @@ const store = new Vuex.Store({
     state: {
         drawerOpen: true,
         isAuthenticated: JSON.parse(localStorage.getItem('auth')) || false,
-        user: {}
+        user: {},
+        token: localStorage.getItem('access_token') || undefined,
+        refreshToken: localStorage.getItem('refresh_token') || undefined
     },
     actions: {
         async login ({ dispatch }, credentials) {
-            await axios.get('/sanctum/csrf-cookie');
-            await axios.post('/login', credentials);
+            const data = {
+                grant_type: 'password',
+                client_id: '90d2d21c-878b-41bd-8e0a-a7e28042679e',
+                client_secret: 'c1UH0SIuaItM8KKqJNU7goo3oQuCqY5Wcz32uqsO',
+                username: credentials.email,
+                password: credentials.password,
+                scopes: ''
+            };
+            const response = await axios.post('/oauth/token', data);
+
+            localStorage.setItem('access_token', response.data.access_token);
+            localStorage.setItem('refresh_token', response.data.refresh_token);
+
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access_token;
+
             return dispatch('getUser');
         },
         async logout({ dispatch }) {
-            await axios.post('/logout');
+            localStorage.clear();
+            axios.defaults.headers.common['Authorization'] = undefined;
             return dispatch('getUser');
         },
 
